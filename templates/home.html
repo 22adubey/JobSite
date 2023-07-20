@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="text-center form">
+    <form action="{{ url_for("home")}}" method="post">
+        <div class="form-row" style="justify-content: center; margin-bottom: 15px;">
+            <div class="form-group col-md-2">
+                <label for="title"> Enter Job Title</label>
+                <input type="text" id="title" name="title" placeholder="Title">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="lastname">Enter Location</label>
+                <input type="text" id="location" name="location" placeholder="Location">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Search Jobs</button>
+    </form>
+</div>
+<div class="line"></div>
+<div class="text-center">
+    <h1>Jobs Near You</h1>
+</div>
+{% if posts |length>=3 %}
+    {% for post in posts[:3]: %}
+    {% set url = post.applyLink %}
+    <div class="job-listing">
+        <h2 class="job-title">{{ post.title }}</h2>
+            <div class="job-company">
+                <p>At {{post.company}} in {{post.location}}</p>
+                <p>{{post.applyLink}}</p>
+            </div>
+            <p class="job-description">Desc: {{post.description}}</p>
+            <a href="/redirect" class="apply-button">Apply Now</a>
+     </div>
+    {% endfor %}
+{% else %}
+    <h1>No Results near you :(</h1>
+{% endif %}
+{% endblock content %}
